@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cors = require('cors');
 const multer = require('multer');
 
@@ -29,6 +30,7 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Root route (if admin static is not deployed, show a backend message)
 app.get('/', (req, res) => {
   res.send('MensConnect Backend Running 🚀');
 });
@@ -58,6 +60,17 @@ try {
   app.use('/api/admin', adminRoutes);
 } catch (e) {
   console.warn('Admin routes not available:', e.message);
+}
+
+// Serve admin static build if present (allows Render to serve the admin UI)
+const adminDist = path.join(__dirname, '..', 'admin', 'dist');
+if (fs.existsSync(adminDist)) {
+  app.use(express.static(adminDist));
+  app.get('*', (req, res, next) => {
+    // Let API and uploads routes pass through
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
+    res.sendFile(path.join(adminDist, 'index.html'));
+  });
 }
 
 // ✅ THIS FIXES EVERYTHING

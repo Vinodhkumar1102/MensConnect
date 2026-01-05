@@ -340,7 +340,6 @@ color: #1E3A8A;   /* Dark Blue */
   border: none;
   cursor: pointer;
 }
-/* vertical offset for login button (uses CSS variable) */
 .login-btn { margin-top: var(--login-btn-top-offset); }
 .login-btn:disabled { opacity: .5; cursor: default }
 
