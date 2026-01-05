@@ -63,7 +63,9 @@ try {
 
 // Serve admin static build with SPA fallback so client-side routes work on refresh
 const adminDist = path.join(__dirname, '..', 'admin', 'dist');
-if (fs.existsSync(adminDist)) {
+const adminExists = fs.existsSync(adminDist);
+console.log('Admin dist path:', adminDist, 'exists:', adminExists);
+if (adminExists) {
   app.use(express.static(adminDist));
 
   app.get('*', (req, res, next) => {
@@ -71,6 +73,8 @@ if (fs.existsSync(adminDist)) {
     if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
     res.sendFile(path.join(adminDist, 'index.html'));
   });
+} else {
+  console.warn('admin/dist not found — SPA routes will return 404. Ensure postinstall built the admin.');
 }
 
 // ✅ THIS FIXES EVERYTHING
