@@ -1,0 +1,15 @@
+# backend
+backend/node_modules/
+backend/.env
+
+# admin
+admin/node_modules/
+admin/.env
+admin/build/
+admin/dist/
+
+# common
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

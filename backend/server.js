@@ -1,0 +1,75 @@
+// server.js
+require('dotenv').config();
+
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const multer = require('multer');
+
+const connectDB = require('./config/db');
+
+connectDB();
+// Log DB connection status shortly after startup for debugging
+try {
+  const db = require('./config/db');
+  setTimeout(() => {
+    try {
+      if (typeof db.getConnectionStatus === 'function') {
+        console.log('MongoDB status:', db.getConnectionStatus());
+      }
+    } catch (e) {}
+  }, 2000);
+} catch (e) {}
+
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+app.use(cors());
+// Increase body size limits to allow JSON payloads containing base64 images
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+app.get('/', (req, res) => {
+  res.send('MensConnect Backend Running 🚀');
+});
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// Serve uploaded static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Personal info routes (CRUD + avatar upload)
+const personalInfoRoutes = require('./routes/personalInfoRoutes');
+app.use('/api/personal-info', personalInfoRoutes);
+
+// Blood request routes
+const bloodRoutes = require('./routes/bloodRequestRoutes');
+app.use('/api/blood-requests', bloodRoutes);
+
+// Debug routes
+const debugRoutes = require('./routes/debugRoutes');
+app.use('/api/debug', debugRoutes);
+
+// Admin routes (setup/login)
+try {
+  const adminRoutes = require('./routes/adminRoutes');
+  app.use('/api/admin', adminRoutes);
+} catch (e) {
+  console.warn('Admin routes not available:', e.message);
+}
+
+// ✅ THIS FIXES EVERYTHING
+
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ error: err.message });
+  }
+  console.error('SERVER ERROR:', err);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server running on http://0.0.0.0:${PORT}`);
+});
