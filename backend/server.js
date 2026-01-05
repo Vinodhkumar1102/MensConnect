@@ -25,18 +25,12 @@ try {
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// locate admin dist early so root handler can serve index.html when present
-const adminDist = path.join(__dirname, '..', 'admin', 'dist');
-const adminExists = fs.existsSync(adminDist);
-console.log('Admin dist path:', adminDist, 'exists:', adminExists);
-
 app.use(cors());
 // Increase body size limits to allow JSON payloads containing base64 images
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.get('/', (req, res) => {
-  if (adminExists) return res.sendFile(path.join(adminDist, 'index.html'));
   res.send('MensConnect Backend Running 🚀');
 });
 
