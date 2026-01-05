@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import api from '../../api'
 
 export default function List() {
@@ -54,12 +55,15 @@ export default function List() {
 
   const [showPendingOnly, setShowPendingOnly] = useState(false)
 
+  const navigate = useNavigate()
+
   const handleLogout = () => {
     try {
       localStorage.removeItem('token')
+      localStorage.removeItem('admin_token')
     } catch (e) {}
-    // navigate to login page
-    window.location.href = '/login'
+    // client-side navigation to avoid full page reload (prevents 404 on hosts without SPA fallback)
+    navigate('/login')
   }
 
   const displayNameFor = (it) =>
