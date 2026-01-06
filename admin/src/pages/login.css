@@ -55,8 +55,6 @@
 .card-sm { max-width: var(--card-width-sm) }
 .card-md { max-width: var(--card-width-md) }
 .card-lg { max-width: var(--card-width-lg) }
-
-    margin-top: var(--login-btn-top-offset);
 .btn-sm { height: var(--btn-height-sm); font-size: var(--font-size-sm) }
 .btn-md { height: var(--btn-height-md); font-size: var(--font-size-md) }
 .btn-lg { height: var(--btn-height-lg); font-size: var(--font-size-lg) }
@@ -64,7 +62,6 @@
 /* emoji utilities and base style */
 .emoji {
   display: inline-block;
-    .login-btn { margin-top: 0.9rem }
   line-height: 1;
   vertical-align: middle;
   margin-right: 8px;
