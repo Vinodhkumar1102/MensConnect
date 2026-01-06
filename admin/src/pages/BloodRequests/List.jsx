@@ -56,7 +56,11 @@ export default function List() {
 
   const handleLogout = () => {
     try {
+      // remove any stored tokens from both storage mechanisms
       localStorage.removeItem('token')
+      localStorage.removeItem('admin_token')
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('admin_token')
     } catch (e) {}
     // navigate to login page
     window.location.href = '/login'

@@ -4,7 +4,7 @@ import Login from './pages/Login'
 import BloodList from './pages/BloodRequests/List'
 
 function PrivateRoute({ children }) {
-  const token = localStorage.getItem('admin_token')
+  const token = localStorage.getItem('admin_token') || sessionStorage.getItem('admin_token')
   return token ? children : <Navigate to="/login" replace />
 }
 
