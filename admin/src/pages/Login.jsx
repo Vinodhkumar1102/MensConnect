@@ -13,10 +13,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    const savedEmail = localStorage.getItem('admin_email')
-    if (savedEmail) setEmail(savedEmail)
-  }, [])
+  // don't auto-fill email from localStorage to force manual entry
 
   // prevent body scrolling while login is displayed
   useEffect(() => {
@@ -78,7 +75,7 @@ export default function Login() {
                 <label className="form-label"><span className="emoji emoji-lg emoji-mail">✉️</span> Email</label>
                 <input
                   type="email"
-                  placeholder="admin@gmail.com"
+                  placeholder=""
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="login-input"
