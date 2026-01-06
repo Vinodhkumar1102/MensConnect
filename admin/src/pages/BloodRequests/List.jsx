@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import api from '../../api'
 
 export default function List() {
@@ -55,15 +54,12 @@ export default function List() {
 
   const [showPendingOnly, setShowPendingOnly] = useState(false)
 
-  const navigate = useNavigate()
-
   const handleLogout = () => {
     try {
       localStorage.removeItem('token')
-      localStorage.removeItem('admin_token')
     } catch (e) {}
-    // client-side navigation to avoid full page reload (prevents 404 on hosts without SPA fallback)
-    navigate('/login')
+    // navigate to login page
+    window.location.href = '/login'
   }
 
   const displayNameFor = (it) =>
@@ -90,12 +86,6 @@ export default function List() {
       <div className="flex items-center justify-between mb-5">
         <h1 className="text-2xl font-bold text-gray-800">🩸 Blood Requests</h1>
         <div className="flex items-center space-x-2">
-          <button
-            onClick={() => setShowPendingOnly((v) => !v)}
-            className={`rounded px-3 py-1 text-sm font-semibold ${showPendingOnly ? 'bg-yellow-600 text-white' : 'bg-yellow-100 text-yellow-800'}`}
-          >
-            Pending
-          </button>
           <button
             onClick={handleLogout}
             className="rounded bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200"

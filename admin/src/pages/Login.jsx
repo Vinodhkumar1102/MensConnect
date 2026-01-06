@@ -75,7 +75,7 @@ export default function Login() {
                 <label className="form-label"><span className="emoji emoji-lg emoji-mail">✉️</span> Email</label>
                 <input
                   type="email"
-                  placeholder=""
+                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="login-input"
@@ -85,7 +85,7 @@ export default function Login() {
                 <label className="form-label"><span className="emoji emoji-lg emoji-lock">🔒</span> Password</label>
                 <input
                   type="password"
-                  placeholder="••••••••"
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="login-input"
