@@ -6,11 +6,7 @@ const api = axios.create({ baseURL: API_BASE });
 
 api.interceptors.request.use((config) => {
   try {
-    let token = null;
-    try { token = localStorage.getItem('admin_token'); } catch (e) {}
-    if (!token) {
-      try { token = sessionStorage.getItem('admin_token'); } catch (e) {}
-    }
+    const token = localStorage.getItem('admin_token');
     if (token) config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
   } catch (e) {
     // ignore
